@@ -1,118 +1,140 @@
-# Stellar Notes DApp
+# Stellar Resident Management DApp
 
-**Stellar Notes DApp** - Blockchain-Based Decentralized Note-Taking System
+**Stellar Resident Management DApp** - Blockchain-Based Decentralized Resident Data Management System
 
 ## Project Description
 
-Stellar Notes DApp is a decentralized smart contract solution built on the Stellar blockchain using Soroban SDK. It provides a secure, immutable platform for managing personal notes directly on the blockchain. The contract ensures that your data is stored transparently and is only manageable through predefined smart contract functions, eliminating reliance on centralized database providers.
+Stellar Resident Management DApp is a decentralized smart contract solution built on the Stellar blockchain using the Soroban SDK. It provides a secure, transparent, and immutable platform for managing resident (citizen) data directly on the blockchain.
 
-The system allows users to create, view, and delete notes, leveraging the efficiency and security of the Stellar network. Each note is uniquely identified and stored within the contract's instance storage, ensuring data persistence and reliability.
+This application is designed to **manage resident population data**, enabling administrators to register, retrieve, update, and remove resident records without relying on centralized database providers. Each resident is automatically assigned a unique NIK (National Identity Number) generated on-chain, ensuring uniqueness and eliminating manual input errors.
+
+The system leverages the efficiency and security of the Stellar network to ensure that all resident data is stored reliably and remains tamper-proof.
+
+## Data Structure
+
+Each resident record stores the following information:
+
+| Field       | Type     | Description                                      |
+|-------------|----------|--------------------------------------------------|
+| `nik`       | `u64`    | Unique identity number, auto-generated randomly  |
+| `full_name` | `String` | Full name of the resident                        |
+| `gender`    | `String` | Gender of the resident                           |
+| `age`       | `u32`    | Age of the resident                              |
 
 ## Project Vision
 
-Our vision is to revolutionize personal productivity in the digital age by:
+Our vision is to modernize and decentralize public population management by:
 
-- **Decentralizing Data**: Moving note-taking from centralized servers to a global, distributed blockchain
-- **Ensuring Ownership**: Empowering users to have complete control and ownership over their digital thoughts and information
-- **Guaranteeing Immutability**: Providing a permanent, tamper-proof record of notes that cannot be altered or deleted by third parties
-- **Enhancing Privacy**: Leveraging blockchain security to protect personal information from unauthorized access
-- **Building Trustless Systems**: Creating a platform where data integrity is guaranteed by code, not by company promises
+- **Decentralizing Resident Data**: Moving citizen records from centralized government servers to a transparent, distributed blockchain
+- **Ensuring Data Integrity**: Providing a tamper-proof record of resident information that cannot be altered by unauthorized parties
+- **Automating Identity Assignment**: Auto-generating unique NIK values on-chain to eliminate duplication and human error
+- **Guaranteeing Transparency**: All data operations are verifiable on the blockchain, promoting accountability
+- **Building Trustless Systems**: Data integrity is guaranteed by smart contract code, not by a single institution
 
-We envision a future where digital information is truly personal and sovereign, empowering individuals with complete autonomy over their digital assets.
+We envision a future where population data management is open, verifiable, and resistant to manipulation — empowering both citizens and administrators with full confidence in the integrity of public records.
 
 ## Key Features
 
-### 1. **Simple Note Creation**
+### 1. **Resident Registration**
 
-- Create notes with just one function call
-- Specify title and content for each note
-- Automated ID generation for unique identification
+- Register a new resident with a single function call
+- Provide `full_name`, `gender`, and `age` as input
+- NIK is automatically generated randomly on-chain for each new resident
 - Persistent storage on the Stellar blockchain
 
-### 2. **Efficient Data Retrieval**
+### 2. **Resident Data Retrieval**
 
-- Fetch all stored notes in a single call
+- Fetch all registered residents in a single call
 - Structured data representation for easy frontend integration
-- Quick access to your entire note collection
 - Real-time synchronization with the blockchain state
 
-### 3. **Secure Deletion**
+### 3. **Resident Data Update**
 
-- Remove specific notes using their unique IDs
+- Update a resident's `full_name`, `gender`, and `age` using their NIK
+- The NIK remains unchanged to preserve identity consistency
+- Returns a clear message if the resident is not found
+
+### 4. **Resident Deletion**
+
+- Remove a specific resident record using their NIK
 - Permanent removal from the contract storage
 - Clean and efficient storage management
-- Immediate update of the note list after deletion
+- Immediate update of the resident list after deletion
 
-### 4. **Transparency and Security**
+### 5. **Transparency and Security**
 
-- View all note activities on the blockchain
-- Blockchain-based verification of all storage actions
-- Immutable records of note creation and deletion
+- All resident data operations are recorded on the Stellar blockchain
+- Immutable audit trail for every create, update, and delete action
 - Protected against unauthorized modifications
+- No single point of failure
 
-### 5. **Stellar Network Integration**
+### 6. **Stellar Network Integration**
 
-- Leverages the high speed and low cost of Stellar
+- Leverages the high speed and low cost of the Stellar network
 - Built using the modern Soroban Smart Contract SDK
-- Scalable architecture for growing note collections
+- Scalable architecture for growing resident databases
 - Interoperable with other Stellar-based services
+
+## Contract Functions
+
+| Function             | Parameters                                  | Description                          |
+|----------------------|---------------------------------------------|--------------------------------------|
+| `get_residents()`    | —                                           | Retrieve all registered residents    |
+| `create_resident()`  | `full_name`, `gender`, `age`                | Register a new resident              |
+| `update_resident()`  | `nik`, `full_name`, `gender`, `age`         | Update an existing resident's data   |
+| `delete_resident()`  | `nik`                                       | Remove a resident by their NIK       |
 
 ## Contract Details
 
-- Contract Address: CBLU4IUASQ4WUMOXBFLZRSBBLILGOH33GS4LUPKFBCCCMJCDQNMF7G2M
-  ![alt text](screenshot.png)
+- Contract ID: CCRHZ7E5USPPPPHORO4N4MS25VIFV5YRRW6BW7OYQBMYX5JPR4W6V3MS
 
 ## Future Scope
 
 ### Short-Term Enhancements
 
-1. **Note Encryption**: Support for end-to-end encryption of note content for enhanced privacy
-2. **Category Management**: Add tags and categories to organize notes efficiently
-3. **Rich Text Support**: Extend support beyond plain text to include Markdown and formatted content
-4. **Search Functionality**: Implement advanced search filters for large note collections
+1. **Search by NIK**: Add a dedicated function to retrieve a single resident by NIK
+2. **Input Validation**: Enforce constraints on age range and gender values at the contract level
+3. **Pagination**: Support paginated retrieval for large datasets
 
 ### Medium-Term Development
 
-5. **Collaborative Notes**: Implement multi-signature requirements for shared or collaborative note-taking
-   - Shared access for multiple addresses
-   - Permission-based editing and viewing
-   - Version history tracking
-6. **Notification System**: Off-chain bridge to alert users of new updates or shared notes
-7. **Asset Attachment**: Capability to attach digital assets or tokens to specific notes
-8. **Inter-Contract Integration**: Allow other smart contracts to interact with and store data in the notes contract
+4. **Role-Based Access Control**: Restrict write operations (create, update, delete) to authorized addresses only
+5. **Event Logging**: Emit contract events for every data mutation to enable off-chain monitoring
+6. **Batch Operations**: Support registering or deleting multiple residents in a single transaction
 
 ### Long-Term Vision
 
-9. **Cross-Chain Synchronization**: Extend note storage to multiple blockchain networks
-10. **Decentralized UI Hosting**: Host the frontend on IPFS or similar decentralized platforms
-11. **AI-Powered Summarization**: Optional integration with AI to help users summarize their notes
-12. **Privacy Layers**: Implement zero-knowledge proofs for completely private note content
-13. **DAO Governance**: Community-driven protocol improvements and feature prioritization
-14. **Identity Management**: Integration with decentralized identity (DID) systems for user management
-
-### Enterprise Features
-
-15. **Corporate Documentation**: Adapt the system for secure corporate record-keeping
-16. **Immutable Logging**: Create time-locked logs for audit purposes
-17. **Automated Reporting**: Automatic note triggers for periodic reporting
-18. **Multi-Language Support**: Expand accessibility with internationalization
+7. **Cross-Contract Integration**: Allow other smart contracts to query resident data for identity verification
+8. **Decentralized Identity (DID)**: Link resident records to decentralized identity standards
+9. **Zero-Knowledge Proofs**: Enable privacy-preserving verification of resident attributes without exposing raw data
+10. **DAO Governance**: Community-driven protocol upgrades for public administration use cases
 
 ---
 
 ## Technical Requirements
 
-- Soroban SDK
 - Rust programming language
+- Soroban SDK
 - Stellar blockchain network
 
 ## Getting Started
 
-Deploy the smart contract to Stellar's Soroban network and interact with it using the three main functions:
+Deploy the smart contract to Stellar's Soroban network and interact with it using the four main functions:
 
-- `create_note()` - Create a new note with a title and content
-- `get_notes()` - Retrieve all stored notes from the contract
-- `delete_note()` - Remove a specific note by its ID
+```sh
+# Register a new resident (NIK is auto-generated)
+create_resident(full_name, gender, age)
+
+# Retrieve all residents
+get_residents()
+
+# Update a resident's data by NIK
+update_resident(nik, full_name, gender, age)
+
+# Remove a resident by NIK
+delete_resident(nik)
+```
 
 ---
 
-**Stellar Notes DApp** - Securing Your Thoughts on the Blockchain
+**Stellar Resident Management DApp** - Securing Citizen Data on the Blockchain
